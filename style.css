@@ -81,6 +81,11 @@ button:active {
   font-size: 1.5rem;
 }
 
+.fa-quote-left,
+.fa-quote-right {
+  font-size: 1.8rem;
+}
+
 /* Media Query: Tablet or Smaller */
 @media screen and (max-width: 1000px) {
   .quote-container {

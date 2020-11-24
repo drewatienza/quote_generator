@@ -1,16 +1,37 @@
+const quoteContainer = document.getElementById('quote-container');
+const quoteText = document.getElementById('quote');
+const author = document.getElementById('author');
+const twitterBtn = document.getElementById('twitter');
+const newQuoteBtn = document.getElementById('new-quote');
+
 // Get Quote from API
 const getQuote = async () => {
-  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  const proxyUrl = 'https://agile-forest-10138.herokuapp.com/';
   const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
   try {
     const response = await fetch(proxyUrl + apiUrl);
     const data = await response.json();
-    console.log(data);
+    //  If Author is blank, add 'Unknown' for the Author
+    data.quoteAuthor === '' ? author.innerText = 'Unknown' : author.innerText = data.quoteAuthor;
+    // Reduce font size for long quotes
+    data.quoteText.length > 120 ? quoteText.classList.add('long-quote') : quoteText.classList.remove('long-quote');
+    quoteText.innerText = data.quoteText;
   } catch (error) {
     getQuote();
-    console.log('whoops, no quote', error);
   }
 }
+
+// Tweet Quote
+function tweetQuote() {
+  const quote = quoteText.innerText;
+  const authorText = author.innerText;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${authorText}`;
+  window.open(twitterUrl, '_blank');
+}
+
+// Event Listeners
+newQuoteBtn.addEventListener('click', getQuote);
+twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
 getQuote();
