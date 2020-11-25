@@ -4,8 +4,23 @@ const author = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 
+// Show Loading
+const loading = () => {
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+}
+
+// Hide Loading 
+const complete = () => {
+  if(!loader.hidden) {
+    quoteContainer.hidden = false;
+    loader.hidden = true;
+  }
+}
+
 // Get Quote from API
 const getQuote = async () => {
+  loading();
   const proxyUrl = 'https://agile-forest-10138.herokuapp.com/';
   const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
   try {
@@ -16,6 +31,8 @@ const getQuote = async () => {
     // Reduce font size for long quotes
     data.quoteText.length > 120 ? quoteText.classList.add('long-quote') : quoteText.classList.remove('long-quote');
     quoteText.innerText = data.quoteText;
+    // Stop Loader, Show Quote
+    complete();
   } catch (error) {
     getQuote();
   }
