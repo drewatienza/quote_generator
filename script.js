@@ -4,14 +4,12 @@ const author = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
 
-// Show Loading
-const loading = () => {
+const showLoadingSpinner = () => {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide Loading 
-const complete = () => {
+const hideLoadingSpinner = () => {
   if(!loader.hidden) {
     quoteContainer.hidden = false;
     loader.hidden = true;
@@ -20,7 +18,7 @@ const complete = () => {
 
 // Get Quote from API
 const getQuote = async () => {
-  loading();
+  showLoadingSpinner();
   const proxyUrl = 'https://agile-forest-10138.herokuapp.com/';
   const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
   try {
@@ -32,10 +30,9 @@ const getQuote = async () => {
     data.quoteText.length > 120 ? quoteText.classList.add('long-quote') : quoteText.classList.remove('long-quote');
     quoteText.innerText = data.quoteText;
     // Stop Loader, Show Quote
-    complete();
+    hideLoadingSpinner();
   } catch (error) {
     getQuote();
-  }
 }
 
 // Tweet Quote
