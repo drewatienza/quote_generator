@@ -33,6 +33,7 @@ const getQuote = async () => {
     hideLoadingSpinner();
   } catch (error) {
     getQuote();
+  }
 }
 
 // Tweet Quote
